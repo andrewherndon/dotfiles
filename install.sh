@@ -56,11 +56,11 @@ ask() {
   printf "  ${CYAN}?${RESET}  %-42s %b  ${DIM}›${RESET} " "$1" "$hint"
   local ans
   read -r ans </dev/tty 2>/dev/null || ans=""
-  case "${ans,,}" in
-    y|yes) return 0 ;;
-    n|no)  return 1 ;;
-    "")    [[ $default == y ]] && return 0 || return 1 ;;
-    *)     [[ $default == y ]] && return 0 || return 1 ;;
+  case "$ans" in
+    y|Y|yes|YES|Yes) return 0 ;;
+    n|N|no|NO|No)    return 1 ;;
+    "")              [[ $default == y ]] && return 0 || return 1 ;;
+    *)               [[ $default == y ]] && return 0 || return 1 ;;
   esac
 }
 
