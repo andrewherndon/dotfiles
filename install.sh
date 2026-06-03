@@ -94,6 +94,19 @@ do_zsh=false;         ask "Zsh config       .zshrc"                   y && do_zs
 DOTFILES="$HOME/.dotfiles"
 DOTFILES_REPO="https://github.com/andrewherndon/dotfiles"
 
+# ── prerequisites (git + curl required before anything else) ──────────────────
+if [[ "$PLATFORM" != "macos" ]]; then
+  if ! command -v git &>/dev/null || ! command -v curl &>/dev/null; then
+    step "Prerequisites"
+    info "Installing git and curl…"
+    if   command -v dnf     &>/dev/null; then sudo dnf install -y git curl
+    elif command -v yum     &>/dev/null; then sudo yum install -y git curl
+    elif command -v apt-get &>/dev/null; then sudo apt-get update -qq && sudo apt-get install -y git curl
+    fi
+    ok "git and curl ready"
+  fi
+fi
+
 step "Dotfiles"
 if [[ -d "$DOTFILES/.git" ]]; then
   info "Pulling latest → $DOTFILES"
